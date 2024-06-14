@@ -54,6 +54,7 @@ $config = [
             'showScriptName' => false,
             'rules' => [
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'lines'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'stations']
             ],
         ],
     ],
