@@ -32,12 +32,23 @@ class LinesTranslation extends ActiveRecord
         ];
     }
 
+    public function fields()
+    {
+        return [
+            'id',
+            'line_id',
+            'language_id',
+            'value',
+            'languages',
+        ];
+    }
+
     public function getLine()
     {
         return $this->hasOne(Lines::class, ['id' => 'line_id']);
     }
 
-    public function getLanguage()
+    public function getLanguages()
     {
         return $this->hasOne(Languages::class, ['id' => 'language_id']);
     }

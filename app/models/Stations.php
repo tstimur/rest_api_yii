@@ -42,13 +42,18 @@ class Stations extends ActiveRecord
         ];
     }
 
-    public function extraFields()
+    public function fields()
     {
         return [
-            'translations',
-            'transfers',
-            'audios',
-            'features'
+            'id',
+            'external_id',
+            'line_id',
+            'name',
+            'stationsAudio',
+            'stationsExits',
+            'stationsFeatures',
+            'stationsTranslations',
+            'stationsTransfers'
         ];
     }
 
@@ -56,27 +61,20 @@ class Stations extends ActiveRecord
     {
         return $this->hasOne(Lines::class, ['id' => 'line_id']);
     }
-    public function getTranslations()
+    public function getStationsTranslations()
     {
         return $this->hasMany(StationsTranslation::class, ['station_id' => 'id']);
     }
-
     public function getStationsTransfers()
     {
         return $this->hasMany(StationsTransfers::class, ['station_id' => 'id']);
     }
-
-    public function getStationsTransfersTo()
-    {
-        return $this->hasMany(StationsTransfers::class, ['station_to_id' => 'id']);
-    }
-
-    public function getAudios()
+    public function getStationsAudio()
     {
         return $this->hasMany(StationsAudio::class, ['station_id' => 'id']);
     }
 
-    public function getFeatures()
+    public function getStationsFeatures()
     {
         return $this->hasMany(StationsFeatures::class, ['station_id' => 'id']);
     }

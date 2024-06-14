@@ -36,4 +36,9 @@ class Languages extends ActiveRecord
     {
         return $this->hasMany(LinesTranslation::class, ['language_id' => 'id']);
     }
+
+    public function getStationsTranslation()
+    {
+        return $this->hasMany(StationsTranslation::class, ['language_id' => 'id']);
+    }
 }

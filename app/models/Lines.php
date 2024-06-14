@@ -52,15 +52,20 @@ class Lines extends ActiveRecord
         ];
     }
 
+    public function fields()
+    {
+        return ['id', 'number', 'name', 'color', 'style', 'circular', 'external_id', 'sort', 'linesTranslations', 'stations'];
+    }
+
     public function extraFields()
     {
         return [
-            'translations',
+            'linesTranslations',
             'stations'
         ];
     }
 
-    public function getTranslations()
+    public function getLinesTranslations()
     {
         return $this->hasMany(LinesTranslation::class, ['line_id'=>'id']);
     }
@@ -69,5 +74,4 @@ class Lines extends ActiveRecord
     {
         return $this->hasMany(Stations::class, ['line_id' => 'id']);
     }
-
 }

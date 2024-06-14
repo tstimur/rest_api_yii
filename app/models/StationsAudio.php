@@ -34,7 +34,7 @@ class StationsAudio extends ActiveRecord
         ];
     }
 
-    public function getStation()
+    public function getStations()
     {
         return $this->hasOne(Stations::class, ['id' => 'station_id']);
     }

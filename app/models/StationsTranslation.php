@@ -31,8 +31,24 @@ class StationsTranslation extends ActiveRecord
         ];
     }
 
-    public function getStation()
+    public function fields()
+    {
+        return [
+            'id',
+            'station_id',
+            'language_id',
+            'value',
+            'languages',
+        ];
+    }
+
+    public function getStations()
     {
         return $this->hasOne(Stations::class, ['id' => 'station_id']);
+    }
+
+    public function getLanguages()
+    {
+        return $this->hasOne(Languages::class, ['id' => 'language_id']);
     }
 }

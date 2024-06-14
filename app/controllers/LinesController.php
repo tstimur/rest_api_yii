@@ -6,6 +6,7 @@ namespace app\controllers;
 
 use app\models\Lines;
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\rest\ActiveController;
 use yii\web\Response;
 
@@ -42,10 +43,4 @@ class LinesController extends ActiveController
         }
     }
 
-    public function actionGetLines()
-    {
-        Yii::$app->response->format = Response::FORMAT_JSON;
-
-
-    }
 }

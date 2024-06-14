@@ -30,7 +30,17 @@ class StationsFeatures extends ActiveRecord
         ];
     }
 
-    public function getFeature()
+    public function fields()
+    {
+        return [
+            'id',
+            'station_id',
+            'feature_id',
+            'services',
+        ];
+    }
+
+    public function getServices()
     {
         return $this->hasOne(Services::class, ['id' => 'feature_id']);
     }
