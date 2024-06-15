@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\Stations;
 use Yii;
+use yii\filters\VerbFilter;
 use yii\rest\ActiveController;
 use yii\web\Response;
 
@@ -11,15 +12,21 @@ class StationsController extends ActiveController
 {
     public $modelClass = Stations::class;
 
-    public function actions()
+    public function behaviors()
     {
-        $actions = parent::actions();
-        unset($actions['create']);
-        unset($actions['update']);
-        return $actions;
+        $behaviors = parent::behaviors();
+        $behaviors['verbs'] = [
+            'class' => VerbFilter::class,
+            'actions' => [
+                'add-station' => ['POST'],
+                'delete-station' => ['POST'],
+                'update-station' => ['POST'],
+            ],
+        ];
+        return $behaviors;
     }
 
-    public function actionCreate()
+    public function actionAddStation()
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
 
@@ -35,7 +42,7 @@ class StationsController extends ActiveController
         }
     }
 
-    public function actionUpdate($id)
+    public function actionUpdateStation($id)
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
         $model = Stations::findOne($id);
@@ -50,7 +57,7 @@ class StationsController extends ActiveController
         }
     }
 
-    public function actionDelete($id)
+    public function actionDeleteStation($id)
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
 

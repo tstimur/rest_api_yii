@@ -54,7 +54,15 @@ $config = [
             'showScriptName' => false,
             'rules' => [
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'lines'],
-                ['class' => 'yii\rest\UrlRule', 'controller' => 'stations']
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'stations',
+                    'extraPatterns' => [
+                        'POST add-station' => 'add-station',
+                        'POST update-station/<id:\d+>' => 'update-station',
+                        'POST delete-station/<id:\d+>' => 'delete-station',
+                    ],
+                ],
             ],
         ],
     ],
