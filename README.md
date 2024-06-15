@@ -1,4 +1,4 @@
-<h1 style="text-align: center;">Тестовое задание - Backend (Yii2)</h1>
+<h1 style="text-align: center;">Тестовое задание на позицию - Backend developer (Yii2)</h1>
 
 Этот проект реализован с помощью: PHP 8.1, фреймворка Yii2, MySQL, PhpStorm.
 
