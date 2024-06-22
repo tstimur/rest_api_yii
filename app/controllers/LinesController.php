@@ -36,38 +36,35 @@ class LinesController extends ActiveController
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
 
-        $line = new Lines();
         // Get data from POST request
         $data = Yii::$app->request->post();
-
-        if ($line->load($data, '') && $line->validate()) {
-            $transaction = Yii::$app->db->beginTransaction();
-            try {
+        $transaction = Yii::$app->db->beginTransaction();
+        try {
+            $line = new Lines();
+            if ($line->load($data, '') && $line->validate()) {
                 if ($line->save()) {
                     if (!empty($data['linesTranslations'])) {
-                        foreach ($data['linesTranslations'] as $translationData) {
-                            $translation = new LinesTranslation();
+                        $translation = new LinesTranslation();
 
-                            $translation->line_id = $line->id;
-                            $translation->language_id = $translationData;
-                            $translation->value = $line->name;
-                            if ($translation->load($translationData, '') && $translation->validate()) {
-                                if (!$translation->save()) {
-                                    $transaction->rollBack();
-                                    return [
-                                        'status' => 'error',
-                                        'message' => 'Failed to save translation',
-                                        'errors' => $translation->errors,
-                                    ];
-                                }
-                            } else {
+                        $translation->line_id = $line->id;
+                        $translation->language_id = $data['linesTranslations']['language_id'];
+                        $translation->value = $line->name;
+                        if ($translation->load($data['linesTranslations'], '') && $translation->validate()) {
+                            if (!$translation->save()) {
                                 $transaction->rollBack();
                                 return [
                                     'status' => 'error',
-                                    'message' => 'Translation validation failed',
+                                    'message' => 'Failed to save translation',
                                     'errors' => $translation->errors,
                                 ];
                             }
+                        } else {
+                            $transaction->rollBack();
+                            return [
+                                'status' => 'error',
+                                'message' => 'Translation validation failed',
+                                'errors' => $translation->errors,
+                            ];
                         }
                     }
                     $transaction->commit();
@@ -82,19 +79,19 @@ class LinesController extends ActiveController
                         'errors' => $line->errors,
                     ];
                 }
-            } catch (\Exception $exception) {
-                $transaction->rollBack();
+            } else {
                 return [
                     'status' => 'error',
-                    'message' => 'An error occurred while saving the line',
-                    'errors' => $exception->getMessage(),
+                    'message' => 'Validation failed',
+                    'errors' => $line->errors,
                 ];
             }
-        } else {
+        } catch (\Exception $exception) {
+            $transaction->rollBack();
             return [
                 'status' => 'error',
-                'message' => 'Validation failed',
-                'errors' => $line->errors,
+                'message' => 'An error occurred while saving the line',
+                'errors' => $exception->getMessage(),
             ];
         }
     }
