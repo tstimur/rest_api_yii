@@ -13,6 +13,7 @@ use yii\db\Exception;
 use yii\db\StaleObjectException;
 use yii\filters\VerbFilter;
 use yii\rest\ActiveController;
+use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
 class StationsController extends ActiveController
@@ -184,11 +185,34 @@ class StationsController extends ActiveController
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
 
-        $model = Stations::findOne($id);
-        if ($model->delete()) {
-            return ['status' => 'success', 'data' => $model];
-        } else {
-            return ['status' => 'error', 'message' => 'Failed to delete station'];
+        $station = Stations::findOne($id);
+        if (!$station) {
+            throw new NotFoundHttpException('Station not found');
+        }
+        $transaction = Yii::$app->db->beginTransaction();
+        try {
+            StationsTranslation::deleteAll(['station_id' => $id]);
+            StationsTransfers::deleteAll(['station_id' => $id]);
+            StationsAudio::deleteAll(['station_id' => $id]);
+            StationsFeatures::deleteAll(['station_id' => $id]);
+            StationsExits::deleteAll(['station_id' => $id]);
+
+            if ($station->delete()) {
+                $transaction->commit();
+                return [
+                    'status' => 'success',
+                    'message' => 'Station and related data deleted successfully'
+                    ];
+            } else {
+                return ['status' => 'error', 'message' => 'Failed to delete station'];
+            }
+        } catch (\Exception $exception) {
+            $transaction->rollBack();
+            return [
+                'status' => 'error',
+                'message' => 'An error occurred while deleting the station',
+                'errors' => $exception->getMessage(),
+            ];
         }
     }
 }
