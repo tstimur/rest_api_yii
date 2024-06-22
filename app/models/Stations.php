@@ -69,6 +69,10 @@ class Stations extends ActiveRecord
     {
         return $this->hasMany(StationsTransfers::class, ['station_id' => 'id']);
     }
+    public function getStationsTransfersTo()
+    {
+        return $this->hasMany(StationsTransfers::class, ['station_to_id' => 'id']);
+    }
     public function getStationsAudio()
     {
         return $this->hasMany(StationsAudio::class, ['station_id' => 'id']);
