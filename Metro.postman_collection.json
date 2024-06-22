@@ -1,0 +1,51 @@
+{
+	"info": {
+		"_postman_id": "d3f8c040-6cec-492a-9b65-f8892c52d241",
+		"name": "Metro",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "32314424",
+		"_collection_link": "https://red-zodiac-181709.postman.co/workspace/My-Workspace~1c814546-b58e-43fa-80ae-23aaa1d7e225/collection/32314424-d3f8c040-6cec-492a-9b65-f8892c52d241?action=share&source=collection_link&creator=32314424"
+	},
+	"item": [
+		{
+			"name": "post lines",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "get lines sort",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "post add station",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "post delete station",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "post update station",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
