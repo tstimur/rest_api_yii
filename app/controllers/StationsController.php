@@ -188,7 +188,7 @@ class StationsController extends ActiveController
                     }
                 }
 
-//                StationsTransfers::deleteAll(['station_id' => $id]);
+                StationsTransfers::deleteAll(['station_id' => $id]);
                 if (!empty($data['stationsTransfers'])) {
                     $transfer = new StationsTransfers();
                     $transfer->station_id = $station->id;
