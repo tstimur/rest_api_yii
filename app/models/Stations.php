@@ -2,15 +2,39 @@
 
 namespace app\models;
 
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
+/**
+ *That is the model class for table "lines".
+ *
+ * @property int $id
+ * @property string $external_id
+ * @property string $number
+ * @property int $line_id
+ * @property string $name
+ * @property int $cross_line_id
+ * @property string $cross_type
+ * @property int $crossPlatform
+ * @property string $crossPlatformColor
+ * @property string $scheme
+ * @property int $sort
+ * @property int $active
+ */
 class Stations extends ActiveRecord
 {
-    public static function tableName()
+    /**
+     * @return string
+     */
+    public static function tableName(): string
     {
         return 'stations';
     }
-    public function rules()
+
+    /**
+     * @return array
+     */
+    public function rules(): array
     {
         return [
             [['line_id', 'name'], 'required'],
@@ -24,7 +48,10 @@ class Stations extends ActiveRecord
         ];
     }
 
-    public function attributeLabels()
+    /**
+     * @return string[]
+     */
+    public function attributeLabels(): array
     {
         return [
             'id' => 'ID',
@@ -42,7 +69,10 @@ class Stations extends ActiveRecord
         ];
     }
 
-    public function fields()
+    /**
+     * @return string[]
+     */
+    public function fields(): array
     {
         return [
             'id',
@@ -57,33 +87,58 @@ class Stations extends ActiveRecord
         ];
     }
 
-    public function getLine()
+    /**
+     * @return ActiveQuery
+     */
+    public function getLine(): ActiveQuery
     {
         return $this->hasOne(Lines::class, ['id' => 'line_id']);
     }
-    public function getStationsTranslations()
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getStationsTranslations(): ActiveQuery
     {
         return $this->hasMany(StationsTranslation::class, ['station_id' => 'id']);
     }
-    public function getStationsTransfers()
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getStationsTransfers(): ActiveQuery
     {
         return $this->hasMany(StationsTransfers::class, ['station_id' => 'id']);
     }
-    public function getStationsTransfersTo()
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getStationsTransfersTo(): ActiveQuery
     {
         return $this->hasMany(StationsTransfers::class, ['station_to_id' => 'id']);
     }
-    public function getStationsAudio()
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getStationsAudio(): ActiveQuery
     {
         return $this->hasMany(StationsAudio::class, ['station_id' => 'id']);
     }
 
-    public function getStationsFeatures()
+    /**
+     * @return ActiveQuery
+     */
+    public function getStationsFeatures(): ActiveQuery
     {
         return $this->hasMany(StationsFeatures::class, ['station_id' => 'id']);
     }
 
-    public function getStationsExits()
+    /**
+     * @return ActiveQuery
+     */
+    public function getStationsExits(): ActiveQuery
     {
         return $this->hasMany(StationsExits::class, ['station_id' => 'id']);
     }

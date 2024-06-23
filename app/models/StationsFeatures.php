@@ -2,16 +2,30 @@
 
 namespace app\models;
 
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
+/**
+ *That is the model class for table "lines".
+ *
+ * @property int $id
+ * @property int $station_id
+ * @property int $feature_id
+ */
 class StationsFeatures extends ActiveRecord
 {
-    public static function tableName()
+    /**
+     * @return string
+     */
+    public static function tableName(): string
     {
         return 'stations_features';
     }
 
-    public function rules()
+    /**
+     * @return array
+     */
+    public function rules(): array
     {
         return [
             [['feature_id'], 'required'],
@@ -21,7 +35,10 @@ class StationsFeatures extends ActiveRecord
         ];
     }
 
-    public function attributeLabels()
+    /**
+     * @return string[]
+     */
+    public function attributeLabels(): array
     {
         return [
             'id' => 'ID',
@@ -30,7 +47,10 @@ class StationsFeatures extends ActiveRecord
         ];
     }
 
-    public function fields()
+    /**
+     * @return string[]
+     */
+    public function fields(): array
     {
         return [
             'id',
@@ -40,7 +60,10 @@ class StationsFeatures extends ActiveRecord
         ];
     }
 
-    public function getServices()
+    /**
+     * @return ActiveQuery
+     */
+    public function getServices(): ActiveQuery
     {
         return $this->hasOne(Services::class, ['id' => 'feature_id']);
     }

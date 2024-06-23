@@ -2,16 +2,29 @@
 
 namespace app\models;
 
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
+/**
+ * @property int $id
+ * @property int $station_id
+ * @property int $language_id
+ * @property string $value
+ */
 class StationsTranslation extends ActiveRecord
 {
-    public static function tableName()
+    /**
+     * @return string
+     */
+    public static function tableName(): string
     {
         return 'stations_translation';
     }
 
-    public function rules()
+    /**
+     * @return array
+     */
+    public function rules(): array
     {
         return [
             [['station_id', 'language_id', 'value'], 'required'],
@@ -21,7 +34,10 @@ class StationsTranslation extends ActiveRecord
         ];
     }
 
-    public function attributeLabels()
+    /**
+     * @return string[]
+     */
+    public function attributeLabels(): array
     {
         return [
             'id' => 'ID',
@@ -31,7 +47,10 @@ class StationsTranslation extends ActiveRecord
         ];
     }
 
-    public function fields()
+    /**
+     * @return string[]
+     */
+    public function fields(): array
     {
         return [
             'id',
@@ -42,12 +61,18 @@ class StationsTranslation extends ActiveRecord
         ];
     }
 
-    public function getStations()
+    /**
+     * @return ActiveQuery
+     */
+    public function getStations(): ActiveQuery
     {
         return $this->hasOne(Stations::class, ['id' => 'station_id']);
     }
 
-    public function getLanguages()
+    /**
+     * @return ActiveQuery
+     */
+    public function getLanguages(): ActiveQuery
     {
         return $this->hasOne(Languages::class, ['id' => 'language_id']);
     }

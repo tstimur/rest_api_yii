@@ -2,16 +2,33 @@
 
 namespace app\models;
 
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
+
+/**
+ *That is the model class for table "lines".
+ *
+ * @property int $id
+ * @property int $active
+ * @property int $name
+ * @property int $code
+ * @property int $sort
+ */
 class Languages extends ActiveRecord
 {
-    public static function tableName()
+    /**
+     * @return string
+     */
+    public static function tableName(): string
     {
         return 'languages';
     }
 
-    public function rules()
+    /**
+     * @return array
+     */
+    public function rules(): array
     {
         return [
             [['active', 'sort'], 'integer'],
@@ -21,7 +38,10 @@ class Languages extends ActiveRecord
         ];
     }
 
-    public function attributeLabels()
+    /**
+     * @return string[]
+     */
+    public function attributeLabels(): array
     {
         return [
             'id' => 'ID',
@@ -32,12 +52,18 @@ class Languages extends ActiveRecord
         ];
     }
 
-    public function getLinesTranslations()
+    /**
+     * @return ActiveQuery
+     */
+    public function getLinesTranslations(): ActiveQuery
     {
         return $this->hasMany(LinesTranslation::class, ['language_id' => 'id']);
     }
 
-    public function getStationsTranslation()
+    /**
+     * @return ActiveQuery
+     */
+    public function getStationsTranslation(): ActiveQuery
     {
         return $this->hasMany(StationsTranslation::class, ['language_id' => 'id']);
     }

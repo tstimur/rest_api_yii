@@ -3,6 +3,7 @@
 namespace app\models;
 
 
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
 /**
@@ -19,12 +20,18 @@ use yii\db\ActiveRecord;
 */
 class Lines extends ActiveRecord
 {
-    public static function tableName()
+    /**
+     * @return string
+     */
+    public static function tableName(): string
     {
         return 'lines';
     }
 
-    public function rules()
+    /**
+     * @return array
+     */
+    public function rules(): array
     {
         return [
             [['number', 'name', 'color'], 'required'],
@@ -38,7 +45,10 @@ class Lines extends ActiveRecord
         ];
     }
 
-    public function attributeLabels()
+    /**
+     * @return string[]
+     */
+    public function attributeLabels(): array
     {
         return [
             'id' => 'ID',
@@ -52,12 +62,18 @@ class Lines extends ActiveRecord
         ];
     }
 
-    public function fields()
+    /**
+     * @return string[]
+     */
+    public function fields(): array
     {
         return ['id', 'number', 'name', 'color', 'style', 'circular', 'external_id', 'sort', 'linesTranslations', 'stations'];
     }
 
-    public function extraFields()
+    /**
+     * @return string[]
+     */
+    public function extraFields(): array
     {
         return [
             'linesTranslations',
@@ -65,12 +81,18 @@ class Lines extends ActiveRecord
         ];
     }
 
-    public function getLinesTranslations()
+    /**
+     * @return ActiveQuery
+     */
+    public function getLinesTranslations(): ActiveQuery
     {
         return $this->hasMany(LinesTranslation::class, ['line_id'=>'id']);
     }
 
-    public function getStations()
+    /**
+     * @return ActiveQuery
+     */
+    public function getStations(): ActiveQuery
     {
         return $this->hasMany(Stations::class, ['line_id' => 'id']);
     }

@@ -2,17 +2,31 @@
 
 namespace app\models;
 
-use yii\base\Model;
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
+
+/**
+ * @property int $id
+ * @property int $station_id
+ * @property string $direction
+ * @property string $action
+ * @property string $sound
+ */
 class StationsAudio extends ActiveRecord
 {
-    public static function tableName()
+    /**
+     * @return string
+     */
+    public static function tableName(): string
     {
         return 'stations_audio';
     }
 
-    public function rules()
+    /**
+     * @return array
+     */
+    public function rules(): array
     {
         return [
             [['station_id', 'direction', 'action'], 'required'],
@@ -23,7 +37,10 @@ class StationsAudio extends ActiveRecord
         ];
     }
 
-    public function attributeLabels()
+    /**
+     * @return array{id: string, station_id: string, direction: string, action: string, sound: string}
+     */
+    public function attributeLabels(): array
     {
         return [
             'id' => 'ID',
@@ -34,7 +51,10 @@ class StationsAudio extends ActiveRecord
         ];
     }
 
-    public function getStations()
+    /**
+     * @return ActiveQuery
+     */
+    public function getStations(): ActiveQuery
     {
         return $this->hasOne(Stations::class, ['id' => 'station_id']);
     }

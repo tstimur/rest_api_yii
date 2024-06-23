@@ -2,16 +2,34 @@
 
 namespace app\models;
 
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
+/**
+ *That is the model class for table "lines".
+ *
+ * @property int $id
+ * @property int $station_id
+ * @property int $station_to_id
+ * @property string $type
+ * @property string $name
+ * @property string $code
+ * @property string $icon
+ */
 class StationsTransfers extends ActiveRecord
 {
-    public static function tableName()
+    /**
+     * @return string
+     */
+    public static function tableName(): string
     {
         return 'stations_transfers';
     }
 
-    public function rules()
+    /**
+     * @return array
+     */
+    public function rules(): array
     {
         return [
             [['type', 'station_id', 'station_to_id'], 'required'],
@@ -25,7 +43,10 @@ class StationsTransfers extends ActiveRecord
         ];
     }
 
-    public function attributeLabels()
+    /**
+     * @return string[]
+     */
+    public function attributeLabels(): array
     {
         return [
             'id' => 'ID',
@@ -38,12 +59,18 @@ class StationsTransfers extends ActiveRecord
         ];
     }
 
-    public function getStation()
+    /**
+     * @return ActiveQuery
+     */
+    public function getStation(): ActiveQuery
     {
         return $this->hasOne(Stations::class, ['id' => 'station_id']);
     }
 
-    public function getStationTo()
+    /**
+     * @return ActiveQuery
+     */
+    public function getStationTo(): ActiveQuery
     {
         return $this->hasOne(Stations::class, ['id' => 'station_to_id']);
     }
