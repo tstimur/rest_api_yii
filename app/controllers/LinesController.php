@@ -49,6 +49,7 @@ class LinesController extends ActiveController
                         if ($translation->load($data['linesTranslations'], '') && $translation->validate()) {
                             if (!$translation->save()) {
                                 $transaction->rollBack();
+                                Yii::$app->response->statusCode = 400;
                                 return [
                                     'status' => 'error',
                                     'message' => 'Failed to save translation',
@@ -57,6 +58,7 @@ class LinesController extends ActiveController
                             }
                         } else {
                             $transaction->rollBack();
+                            Yii::$app->response->statusCode = 400;
                             return [
                                 'status' => 'error',
                                 'message' => 'Translation validation failed',
@@ -65,11 +67,13 @@ class LinesController extends ActiveController
                         }
                     }
                     $transaction->commit();
+                    Yii::$app->response->statusCode = 201;
                     return [
                         'status' => 'success',
                         'message' => 'Lines created successfully',
                     ];
                 } else {
+                    Yii::$app->response->statusCode = 400;
                     return [
                         'status' => 'error',
                         'message' => 'Failed to create lines',
@@ -77,6 +81,7 @@ class LinesController extends ActiveController
                     ];
                 }
             } else {
+                Yii::$app->response->statusCode = 400;
                 return [
                     'status' => 'error',
                     'message' => 'Validation failed',
@@ -85,6 +90,7 @@ class LinesController extends ActiveController
             }
         } catch (Exception $exception) {
             $transaction->rollBack();
+            Yii::$app->response->statusCode = 500;
             return [
                 'status' => 'error',
                 'message' => 'An error occurred while saving the line',
