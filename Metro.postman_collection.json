@@ -10,7 +10,7 @@
 		{
 			"name": "post lines",
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": []
 			},
 			"response": []
@@ -26,7 +26,7 @@
 		{
 			"name": "post add station",
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": []
 			},
 			"response": []
@@ -34,7 +34,7 @@
 		{
 			"name": "post delete station",
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": []
 			},
 			"response": []
@@ -42,7 +42,7 @@
 		{
 			"name": "post update station",
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": []
 			},
 			"response": []
