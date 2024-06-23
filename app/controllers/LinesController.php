@@ -2,11 +2,9 @@
 
 namespace app\controllers;
 
-
-
-use app\models\Languages;
 use app\models\Lines;
 use app\models\LinesTranslation;
+use Exception;
 use Yii;
 use yii\rest\ActiveController;
 use yii\web\Response;
@@ -27,7 +25,6 @@ class LinesController extends ActiveController
         unset($actions['create']);
         return $actions;
     }
-
 
     /**
      * @return array|string[]
@@ -86,7 +83,7 @@ class LinesController extends ActiveController
                     'errors' => $line->errors,
                 ];
             }
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             $transaction->rollBack();
             return [
                 'status' => 'error',
