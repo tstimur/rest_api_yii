@@ -36,51 +36,11 @@ class LinesController extends ActiveController
         // Get data from POST request
         $data = Yii::$app->request->post();
         $transaction = Yii::$app->db->beginTransaction();
+
         try {
             $line = new Lines();
-            if ($line->load($data, '') && $line->validate()) {
-                if ($line->save()) {
-                    if (!empty($data['linesTranslations'])) {
-                        $translation = new LinesTranslation();
 
-                        $translation->line_id = $line->id;
-                        $translation->language_id = $data['linesTranslations']['language_id'];
-                        $translation->value = $line->name;
-                        if ($translation->load($data['linesTranslations'], '') && $translation->validate()) {
-                            if (!$translation->save()) {
-                                $transaction->rollBack();
-                                Yii::$app->response->statusCode = 400;
-                                return [
-                                    'status' => 'error',
-                                    'message' => 'Failed to save translation',
-                                    'errors' => $translation->errors,
-                                ];
-                            }
-                        } else {
-                            $transaction->rollBack();
-                            Yii::$app->response->statusCode = 400;
-                            return [
-                                'status' => 'error',
-                                'message' => 'Translation validation failed',
-                                'errors' => $translation->errors,
-                            ];
-                        }
-                    }
-                    $transaction->commit();
-                    Yii::$app->response->statusCode = 201;
-                    return [
-                        'status' => 'success',
-                        'message' => 'Lines created successfully',
-                    ];
-                } else {
-                    Yii::$app->response->statusCode = 400;
-                    return [
-                        'status' => 'error',
-                        'message' => 'Failed to create lines',
-                        'errors' => $line->errors,
-                    ];
-                }
-            } else {
+            if (!$line->load($data, '') && !$line->validate()) {
                 Yii::$app->response->statusCode = 400;
                 return [
                     'status' => 'error',
@@ -88,6 +48,46 @@ class LinesController extends ActiveController
                     'errors' => $line->errors,
                 ];
             }
+            if (!$line->save()) {
+                Yii::$app->response->statusCode = 400;
+                return [
+                    'status' => 'error',
+                    'message' => 'Failed to create lines',
+                    'errors' => $line->errors,
+                ];
+            }
+
+            $translation = new LinesTranslation();
+
+            if (!empty($data['linesTranslations'])) {
+                $translation->line_id = $line->id;
+                $translation->language_id = $data['linesTranslations']['language_id'];
+                $translation->value = $line->name;
+            }
+            if (!$translation->load($data['linesTranslations'], '') && !$translation->validate()) {
+                $transaction->rollBack();
+                Yii::$app->response->statusCode = 400;
+                return [
+                    'status' => 'error',
+                    'message' => 'Translation validation failed',
+                    'errors' => $translation->errors,
+                ];
+            }
+            if (!$translation->save()) {
+                $transaction->rollBack();
+                Yii::$app->response->statusCode = 400;
+                return [
+                    'status' => 'error',
+                    'message' => 'Failed to save translation',
+                    'errors' => $translation->errors,
+                ];
+            }
+            $transaction->commit();
+            Yii::$app->response->statusCode = 201;
+            return [
+                'status' => 'success',
+                'message' => 'Lines created successfully',
+            ];
         } catch (Exception $exception) {
             $transaction->rollBack();
             Yii::$app->response->statusCode = 500;
