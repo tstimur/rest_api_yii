@@ -288,17 +288,23 @@ class StationsController extends ActiveController
             StationsFeatures::deleteAll(['station_id' => $id]);
             StationsExits::deleteAll(['station_id' => $id]);
 
-            if ($station->delete()) {
-                $transaction->commit();
+            if (!$station->delete()) {
+                Yii::$app->response->statusCode = 400;
                 return [
-                    'status' => 'success',
-                    'message' => 'Station and related data deleted successfully'
+                    'status' => 'error',
+                    'message' => 'Failed to delete station'
                 ];
-            } else {
-                return ['status' => 'error', 'message' => 'Failed to delete station'];
             }
+            $transaction->commit();
+            Yii::$app->response->statusCode = 200;
+            return [
+                'status' => 'success',
+                'message' => 'Station and related data deleted successfully'
+            ];
+
         } catch (Exception $exception) {
             $transaction->rollBack();
+            Yii::$app->response->statusCode = 500;
             return [
                 'status' => 'error',
                 'message' => 'An error occurred while deleting the station',
