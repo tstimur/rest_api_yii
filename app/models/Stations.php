@@ -41,6 +41,7 @@ class Stations extends ActiveRecord
             [['line_id', 'cross_line_id', 'crossPlatform', 'sort', 'active'], 'integer'],
             [['cross_type'], 'string'],
             [['external_id', 'number', 'name'], 'string', 'max' => 128],
+            [['name'], 'unique'],
             [['crossPlatformColor'], 'string', 'max' => 7],
             [['scheme'], 'string', 'max' => 500],
             [['line_id'], 'exist', 'skipOnError' => true, 'targetClass' => Lines::class, 'targetAttribute' => ['line_id' => 'id']],
